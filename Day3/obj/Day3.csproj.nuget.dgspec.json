@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\AdventOfCode\\Day3\\Day3.csproj": {}
+    "C:\\AdventOfCode\\AdventOfCode2021\\Day3\\Day3.csproj": {}
   },
   "projects": {
-    "C:\\AdventOfCode\\Day3\\Day3.csproj": {
+    "C:\\AdventOfCode\\AdventOfCode2021\\Day3\\Day3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\AdventOfCode\\Day3\\Day3.csproj",
+        "projectUniqueName": "C:\\AdventOfCode\\AdventOfCode2021\\Day3\\Day3.csproj",
         "projectName": "Day3",
-        "projectPath": "C:\\AdventOfCode\\Day3\\Day3.csproj",
+        "projectPath": "C:\\AdventOfCode\\AdventOfCode2021\\Day3\\Day3.csproj",
         "packagesPath": "C:\\Users\\narob\\.nuget\\packages\\",
-        "outputPath": "C:\\AdventOfCode\\Day3\\obj\\",
+        "outputPath": "C:\\AdventOfCode\\AdventOfCode2021\\Day3\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

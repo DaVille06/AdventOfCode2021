@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = Day3
-build_property.ProjectDir = c:\AdventOfCode\AdventOfCode2021\Day3\
+build_property.ProjectDir = C:\AdventOfCode\AdventOfCode2021\Day3\
