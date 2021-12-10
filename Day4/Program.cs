@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// I HATE everything about this. But it worked.
+// Must put a break point on the break statement or it doesn't kick out fully.
+
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -8,48 +12,115 @@ namespace Day4
     {
         static void Main(string[] args)
         {
-            List<string> calledNumbers = null;
-            var grids = new List<Dictionary<string, Coordinate>>();
+            var grids = new List<string[,]>();
+            var markedGrids = new List<bool[,]>();
+            List<string> numbers = null;
+
             var currentGrid = -1;
             var currentRow = 0;
 
+            // we have all our numbers and grids
             foreach (var line in File.ReadLines("Inputs.txt"))
             {
-                if (calledNumbers is null)
+                if (numbers is null)
                 {
-                    calledNumbers = line.Split(',').ToList();
+                    numbers = line.Split(',').ToList();
                 }
                 else if (line is "")
                 {
-                    grids.Add(new Dictionary<string, Coordinate>());
+                    grids.Add(new string[5,5]);
+                    markedGrids.Add(new bool[5,5]);
                     currentGrid++;
                     currentRow = 0;
-                    continue;
                 }
                 else
                 {
-                    var gridData = line.Split(' ').ToList();
-                    gridData.RemoveAll(x => x == "");
+                    var inputs = line.Split(" ").ToList();
+                    inputs.RemoveAll(x => x == "");
 
-                    for (int i = 0; i < gridData.Count(); i++)
-                    {
-                        grids[currentGrid].Add(gridData[i], new Coordinate(currentRow, i));
+                    // now go find the index from numbers
+                    for (int i = 0; i < inputs.Count(); i++)
+                    {                        
+                        grids[currentGrid][currentRow, i] = inputs[i];
                     }
+
                     currentRow++;
                 }
             }
-        }
-    }
 
-    public class Coordinate
-    {
-        public Coordinate(int x, int y)
-        {
-            XValue = x;
-            YValue = y;
-        }
+            // go through each num and check for bingo
+            foreach (var num in numbers)
+            {
+                // check for it in each grid
+                for (int g = 0; g < grids.Count(); g++)
+                {
+                    //go through each row of the grid
+                    for (int i = 0; i < 5; i++)
+                    {
+                        // go through each column in the grid
+                        for (int j = 0; j < 5; j++)
+                        {
+                            // check if it matches the num
+                            if (num.Equals(grids[g][i, j]))
+                            {
+                                // mark it in the marked Grid based on i and j
+                                markedGrids[g][i, j] = true;
 
-        public int XValue { get; set; }
-        public int YValue { get; set; }
+                                // now check through the row and column and check for bingo
+                                // first check the whole row 
+                                // i stays the same
+                                var bingo = true;
+                                for (int mj = 0; mj < 5; mj++)
+                                {
+                                    if (!markedGrids[g][i, mj])
+                                    {
+                                        bingo = false;
+                                        break;
+                                    }
+                                }
+
+                                if (!bingo)
+                                {
+                                    bingo = true;
+                                    // then check the column
+                                    for (int mi = 0; mi < 5; mi++)
+                                    {
+                                        if (!markedGrids[g][mi, j])
+                                        {
+                                            bingo = false;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (bingo)
+                                {
+                                    Console.WriteLine("BINGO!");
+                                    // go through the marked grid, if false grab value
+                                    var sum = 0;
+                                    for (int mi = 0; mi < 5; mi++)
+                                    {
+                                        for (int mj = 0; mj < 5; mj++)
+                                        {
+                                            if (!markedGrids[g][mi, mj])
+                                            {
+                                                sum += Int32.Parse(grids[g][mi, mj]);
+                                            }
+                                        }
+                                    }
+
+                                    Console.WriteLine($"Sum: {sum}");
+                                    var lastNumberCalled = Int32.Parse(grids[g][i,j]);
+                                    Console.WriteLine($"Last number called: {lastNumberCalled}");
+                                    Console.WriteLine($"Answer: {sum * lastNumberCalled}");
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
