@@ -10,6 +10,11 @@ namespace Day5
         // At how many points do at least two lines overlap?
         static void Main(string[] args)
         {
+            Part1();
+        }
+
+        public static void Part1()
+        {
             // string of x,y coords key
             // int of # of times intersected
             var points = new Dictionary<string, int>();
