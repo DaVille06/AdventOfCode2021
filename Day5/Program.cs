@@ -11,6 +11,7 @@ namespace Day5
         static void Main(string[] args)
         {
             Part1();
+            Part2();
         }
 
         public static void Part1()
@@ -97,7 +98,125 @@ namespace Day5
             // next find all keys with a value of 2 or more
             // get the count
             var count = points.Values.Where(x => x > 1).Count();
-            Console.WriteLine($"Answer: {count}");
+            Console.WriteLine($"Part 1 Answer: {count}");
+        }
+
+        public static void Part2()
+        {
+            // string of x,y coords key
+            // int of # of times intersected
+            var points = new Dictionary<string, int>();
+            foreach (var line in File.ReadLines("Inputs.txt"))
+            {
+                var inputs = line.Split(' ');
+
+                var firstCoord = inputs[0].Split(',');
+                var x1 = Int32.Parse(firstCoord[0]);
+                var y1 = Int32.Parse(firstCoord[1]);
+
+                var secondCoord = inputs[2].Split(',');
+                var x2 = Int32.Parse(secondCoord[0]);
+                var y2 = Int32.Parse(secondCoord[1]);
+
+                // its either horizonal || vertical like below
+                // OR diagnoal
+                // so if it is H or V then it cant be D
+                if (x1 == x2 || y1 == y2)
+                {
+                    // then do work
+                    // whichever one is not the same, then we walk through
+                    // ex. x1 == x2
+                    //      then we do everything between the two y's (inclusive)
+                    if (x1 == x2)
+                    {
+                        // walk through y's
+                        var times = Math.Abs(y1 - y2);
+                        // starting with y do times + 1 (so we get y as well)
+                        // x stays the same through out
+                        // doesn't matter which x we use 1 or 2
+                        for (int i = 0; i <= times; i++)
+                        {
+                            var key = string.Empty;
+                            // need to know if x1 or x2 is bigger
+                            if (y1 < y2)
+                                key = $"{x1},{y1+i}";
+                            else
+                                key = $"{x1},{y2+i}";
+
+                            // check if point already exists
+                            var alreadyExists = points.ContainsKey(key);
+                            // if already exists - increase value
+                            // otherwise add it and set value to 1
+                            if (alreadyExists)
+                                points[key] += 1;
+                            else
+                                points.Add(key, 1);
+                        }
+
+                    }
+                    else 
+                    {
+                        // walk through x's
+                        var times = Math.Abs(x1 - x2);
+                        // starting with x do times + 1 (so we get x as well)
+                        // y stays the same through out
+                        // doesn't matter which y we use 1 or 2
+                        for (int i = 0; i <= times; i++)
+                        {
+                            var key = string.Empty;
+                            // need to know if x1 or x2 is bigger
+                            if (x1 < x2)
+                                key = $"{x1+i},{y1}";
+                            else
+                                key = $"{x2+i},{y1}";
+
+                            // check if point already exists
+                            var alreadyExists = points.ContainsKey(key);
+                            // if already exists - increase value
+                            // otherwise add it and set value to 1
+                            if (alreadyExists)
+                                points[key] += 1;
+                            else
+                                points.Add(key, 1);
+                        }
+                    }
+                }
+                else
+                {
+                    var times = Math.Abs(x1 - x2);
+
+                    for (int i = 0; i <= times; i++)
+                    {
+                        var xKey = string.Empty;
+                        if (x1 < x2)
+                            xKey = (x1 + i).ToString();
+                        else
+                            xKey = (x1 - i).ToString();
+
+                        var yKey = string.Empty;
+                        if (y1 < y2)
+                            yKey = (y1 + i).ToString();
+                        else
+                            yKey = (y1 - i).ToString();
+
+                        var key = $"{xKey},{yKey}";
+
+                        // check if point already exists
+                        var alreadyExists = points.ContainsKey(key);
+                        // if already exists - increase value
+                        // otherwise add it and set value to 1
+                        if (alreadyExists)
+                            points[key] += 1;
+                        else
+                            points.Add(key, 1);
+                    }
+                }
+            }
+
+            // next find all keys with a value of 2 or more
+            // get the count
+            var count = points.Values.Where(x => x > 1).Count();
+            Console.WriteLine($"Part 2 Answer: {count}");
         }
     }
 }
