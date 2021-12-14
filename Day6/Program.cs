@@ -8,6 +8,11 @@ namespace Day6
     {
         static void Main(string[] args)
         {
+            Part1();
+        }
+
+        public static void Part1()
+        {
             var fishCount = new Dictionary<string, int>();
 
             foreach (var line in File.ReadLines("Inputs.txt"))
